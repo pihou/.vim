@@ -1,1 +1,132 @@
-/Users/bufan/.vimrc
+set nocompatible              " be iMproved, required
+filetype off                  " required
+
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+
+Plugin 'VundleVim/Vundle.vim'
+Plugin 'taglist.vim'
+Plugin 'winmanager'
+Plugin 'minibufexpl.vim'
+Plugin 'mileszs/ack.vim'
+Plugin 'Visual-Mark'
+
+call vundle#end()            " required
+filetype plugin indent on    " required
+
+set nu
+set hlsearch
+set incsearch
+set guioptions-=m
+set guioptions-=T
+set guioptions-=l
+set guioptions-=L
+set guioptions-=r
+set guioptions-=R
+set guifont=Courier_new:h11:cANSI
+"set cursorline "高亮当前行
+set shiftwidth=4 tabstop=4 softtabstop=4
+set ai "自动缩进
+set nowrap "自动换行
+set gcr=a:block-blinkon0
+au GUIEnter * simalt ~x
+hi normal guibg=#C7EDCC
+
+"ctags 设置
+set tags=tags; "设置可递归查找tags文件
+set autochdir "设置可依据当前编辑文件切换目录
+
+"taglist 设置
+let Tlist_Show_One_File=1
+let Tlist_Exit_OnlyWindow=1
+
+"winmanager 设置
+let g:winManagerWindowLayout='FileExplorer|TagList'
+nmap wm :WMToggle<cr>
+
+"minibufexpl 设置
+let g:miniBufExplMapWindowNavVim = 1
+let g:miniBufExplorerMoreThanOne = 1
+
+"文件过滤配置
+let g:explHideFiles='.*\~$,.*\.swp$,.*\.bak$,.*\.o$'
+
+let mapleader=" "
+nnoremap <leader>q :wqa<CR>
+autocmd FileType help wincmd L
+
+"搜索设置
+let g:ackprg = 'ag --vimgrep'
+function SearchWordGeneral(sSearchWord, sSearchDir)
+	exe "Ack! " . a:sSearchWord . " " . a:sSearchDir
+	copen
+endfunction
+
+let sDirList = split(getcwd(), '/')
+let iDirDeep = len(sDirList)
+for i in range(1, iDirDeep)
+	let g:sProjectRoot = join(sDirList[0:i*-1], "/")
+	let g:sProjectRoot = "/".g:sProjectRoot
+	if filereadable(g:sProjectRoot."/_vimproject")
+		break
+	endif
+endfor
+
+"find word in directories.
+function SearchWordGlobal()
+	let sSearchWord = input("global search: ", expand("<cword>"))
+	let sSearchDir  = g:sProjectRoot
+	let sSearchDir  = input("search in: ", sSearchDir, "dir")
+	call SearchWordGeneral(sSearchWord, sSearchDir)
+endfunction
+nmap <silent> fg :call SearchWordGlobal()<CR>
+
+"find word in directories.
+function SearchWordLocal()
+	let sSearchWord = input("local search: ", expand("<cword>"))
+	let sSearchDir  = getcwd()
+	let sSearchDir  = input("search in: ", sSearchDir, "dir")
+	call SearchWordGeneral(sSearchWord, sSearchDir)
+endfunction
+nmap <silent> fl :call SearchWordLocal()<CR>
+
+" find word in file
+function SearchWordFile()
+	let sSearchWord = input("local search: ", "\\<" . expand("<cword>") ."\\>")
+	let sSearchDir = expand("%")
+	call SearchWordGeneral(sSearchWord, sSearchDir)
+endfunction
+nmap <silent> ft :call SearchWordFile()<CR>
+
+"对齐函数
+function GeneralAlign(sFlag)
+	let ASSIGN_LINE = '^\(.\{-}\)\s*\(' . a:sFlag . '\)'
+	let indent_pat  = '^' . matchstr(getline('.'), '^\s*') . '\S'
+	let firstline   = search('^\%('. indent_pat . '\)\@!','bnW') + 1
+	let lastline    = search('^\%('. indent_pat . '\)\@!', 'nW') - 1
+	if lastline < 0
+		let lastline = line('$')
+	endif
+	let max_align_col = 0
+	let max_op_width  = 0
+	for linetext in getline(firstline, lastline)
+		let left_width = match(linetext, '\s*' . a:sFlag)
+		if left_width >= 0
+			let max_align_col = max([max_align_col, left_width])
+			let op_width      = strlen(matchstr(linetext, a:sFlag))
+			let max_op_width  = max([max_op_width, op_width+1])
+		endif
+	endfor
+	let FORMATTER = '\=printf("%-*s%*s", max_align_col, submatch(1), max_op_width, submatch(2))'
+	for linenum in range(firstline, lastline)
+		let oldline = getline(linenum)
+		let newline = substitute(oldline, ASSIGN_LINE, FORMATTER, "")
+		call setline(linenum, newline)
+	endfor
+	endfunction
+let AssinPattern = '[-+*/%|&]\?[<>=]\@<!=[=~]\@!'
+let ColonPattern = ':'
+nmap <silent> ;= :call GeneralAlign(AssinPattern)<CR>
+nmap <silent> ;: :call GeneralAlign(ColonPattern)<CR>
+
+
