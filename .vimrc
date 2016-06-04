@@ -6,7 +6,6 @@ syntax on
 set nu              "显示行号
 set ai              "自动缩进
 set nowrap          "自动换行
-set cursorline      "高亮当前行
 set hlsearch
 set incsearch
 set guioptions-=m
