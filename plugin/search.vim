@@ -1,7 +1,6 @@
 
-let g:ackprg = 'ag --vimgrep'
 function SearchWordGeneral(sSearchWord, sSearchDir)
-	exe "Ack! " . a:sSearchWord . " " . a:sSearchDir
+	exe "vimgrep /". a:sSearchWord. "/j ". a:sSearchDir
 	copen
 endfunction
 
@@ -17,27 +16,27 @@ endfor
 
 "find word in directories.
 function SearchWordGlobal()
-	let sSearchWord = input("global search: ", expand("<cword>"))
-	let sSearchDir  = g:sProjectRoot
+	let sSearchWord = input("global search: ", "\\<". expand("<cword>"). "\\>")
+	let sSearchDir  = g:sProjectRoot. "/**/*.{c,cpp,h,py,vim}"
 	let sSearchDir  = input("search in: ", sSearchDir, "dir")
 	call SearchWordGeneral(sSearchWord, sSearchDir)
 endfunction
-nmap <silent> fg :call SearchWordGlobal()<CR>
+nmap <silent> <leader>fg :call SearchWordGlobal()<CR>
 
 "find word in directories.
 function SearchWordLocal()
-	let sSearchWord = input("local search: ", expand("<cword>"))
-	let sSearchDir  = getcwd()
+	let sSearchWord = input("local search: ", "\\<". expand("<cword>"). "\\>")
+	let sSearchDir  = getcwd(). "/**/*.{c,cpp,h,py,vim}"
 	let sSearchDir  = input("search in: ", sSearchDir, "dir")
 	call SearchWordGeneral(sSearchWord, sSearchDir)
 endfunction
-nmap <silent> fl :call SearchWordLocal()<CR>
+nmap <silent> <leader>fl :call SearchWordLocal()<CR>
 
 " find word in file
 function SearchWordFile()
-	let sSearchWord = input("local search: ", "\\<" . expand("<cword>") ."\\>")
-	let sSearchDir = expand("%")
+	let sSearchWord = input("local search: ", "\\<". expand("<cword>"). "\\>")
+	let sSearchDir  = expand("%")
 	call SearchWordGeneral(sSearchWord, sSearchDir)
 endfunction
-nmap <silent> ft :call SearchWordFile()<CR>
+nmap <silent> <leader>ft :call SearchWordFile()<CR>
 
