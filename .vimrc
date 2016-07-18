@@ -24,7 +24,7 @@ hi normal guibg=#C7EDCC
 set encoding=UTF-8
 set langmenu=utf-8
 set fileencodings=UTF-8,gbk,gb18030
-language message zh_CN.UTF-8
+"language message zh_CN.UTF-8
 
 "ctags 设置
 set tags=tags; "设置可递归查找tags文件
@@ -33,6 +33,7 @@ set autochdir  "设置可依据当前编辑文件切换目录
 "taglist 设置
 let Tlist_Show_One_File=1
 let Tlist_Exit_OnlyWindow=1
+let Tlist_Ctags_Cmd='/usr/bin/ctags'
 
 "winmanager 设置
 let g:winManagerWindowLayout='FileExplorer|TagList'

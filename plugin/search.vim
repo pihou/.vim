@@ -17,7 +17,7 @@ endfor
 "find word in directories.
 function SearchWordGlobal()
 	let sSearchWord = input("global search: ", "\\<". expand("<cword>"). "\\>")
-	let sSearchDir  = g:sProjectRoot. "/**/*.{c,cpp,h,py,vim}"
+	let sSearchDir  = g:sProjectRoot. "/**/*.py"
 	let sSearchDir  = input("search in: ", sSearchDir, "dir")
 	call SearchWordGeneral(sSearchWord, sSearchDir)
 endfunction
@@ -26,7 +26,7 @@ nmap <silent> <leader>fg :call SearchWordGlobal()<CR>
 "find word in directories.
 function SearchWordLocal()
 	let sSearchWord = input("local search: ", "\\<". expand("<cword>"). "\\>")
-	let sSearchDir  = getcwd(). "/**/*.{c,cpp,h,py,vim}"
+	let sSearchDir  = getcwd(). "/**/*.py"
 	let sSearchDir  = input("search in: ", sSearchDir, "dir")
 	call SearchWordGeneral(sSearchWord, sSearchDir)
 endfunction
