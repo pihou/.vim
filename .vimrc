@@ -37,7 +37,7 @@ let Tlist_Ctags_Cmd='/usr/bin/ctags'
 
 "winmanager 设置
 let g:winManagerWindowLayout='FileExplorer|TagList'
-let g:explHideFiles='.*\~$,.*\.swp$,.*\.bak$,.*\.o$'
+set wig+=*~,*.o,*.swp,*.obj,*.pyc,.git
 nmap wm :WMToggle<cr>
 
 "minibufexpl 设置
