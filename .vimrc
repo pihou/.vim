@@ -37,7 +37,7 @@ let Tlist_Ctags_Cmd='/usr/bin/ctags'
 
 "winmanager 设置
 let g:winManagerWindowLayout='FileExplorer|TagList'
-set wig+=*~,*.o,*.swp,*.obj,*.pyc,.git
+set wig+=*~,*.o,*.swp,*.obj,*.pyc,.git/*,.svn/*
 nmap wm :WMToggle<cr>
 
 "minibufexpl 设置
