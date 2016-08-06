@@ -8,6 +8,7 @@ set ai              "自动缩进
 set nowrap          "自动换行
 set hlsearch
 set incsearch
+set backspace=2
 set guioptions-=m
 set guioptions-=T
 set guioptions-=l
@@ -33,11 +34,11 @@ set autochdir  "设置可依据当前编辑文件切换目录
 "taglist 设置
 let Tlist_Show_One_File=1
 let Tlist_Exit_OnlyWindow=1
-let Tlist_Ctags_Cmd='/usr/bin/ctags'
+let Tlist_Ctags_Cmd='/usr/local/bin/ctags'
 
 "winmanager 设置
 let g:winManagerWindowLayout='FileExplorer|TagList'
-set wig+=*~,*.o,*.swp,*.obj,*.pyc,.git/*,.svn/*
+set wig+=*~,*.o,*.swp,*.obj,*.pyc,.git/*,.svn/*,tags
 nmap wm :WMToggle<cr>
 
 "minibufexpl 设置
