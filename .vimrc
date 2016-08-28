@@ -8,6 +8,7 @@ set ai              "自动缩进
 set nowrap          "自动换行
 set hlsearch
 set incsearch
+set expandtab
 set backspace=2
 set guioptions-=m
 set guioptions-=T
@@ -34,7 +35,7 @@ set autochdir  "设置可依据当前编辑文件切换目录
 "taglist 设置
 let Tlist_Show_One_File=1
 let Tlist_Exit_OnlyWindow=1
-let Tlist_Ctags_Cmd='/usr/local/bin/ctags'
+"let Tlist_Ctags_Cmd='/usr/local/bin/ctags'
 
 "winmanager 设置
 let g:winManagerWindowLayout='FileExplorer|TagList'
