@@ -51,3 +51,10 @@ let mapleader=" "
 nnoremap <leader>q :wqa<CR>
 autocmd FileType help wincmd L
 
+"tmux兼容设置
+set mouse+=a
+if &term =~ '^screen'
+    " tmux knows the extended mouse mode
+    set ttymouse=xterm2
+endif
+
