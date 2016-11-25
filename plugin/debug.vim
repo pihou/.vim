@@ -9,6 +9,9 @@ function PrintFuncInfo()
 	if firstline == 0
 		return
 	endif
+    if lastline == -1
+        let lastline = line('$')
+    endif
 	for linetext in getline(firstline, lastline)
 		if match(linetext,FLAG_PAT) != -1
 			let index += 1
