@@ -39,7 +39,7 @@ let Tlist_Exit_OnlyWindow=1
 
 "winmanager 设置
 let g:winManagerWindowLayout='FileExplorer|TagList'
-set wig+=*~,*.o,*.swp,*.obj,*.pyc,.git/*,.svn/*,tags
+set wig+=*~,*.o,*.swp,*.obj,*.pyc,.git/*,.svn/*,tags,node_modules/*
 nmap wm :WMToggle<cr>
 
 "minibufexpl 设置

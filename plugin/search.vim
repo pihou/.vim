@@ -18,7 +18,7 @@ endfor
 function SearchWordGlobal()
 	let g:sSearchWord  = input("global search: ", "\\<". expand("<cword>"). "\\>")
 	let sSearchDir     = g:sProjectRoot
-	let g:sSearchDir   = input("search in: ", sSearchDir, "dir"). "/**/*"
+	let g:sSearchDir   = input("search in: ", sSearchDir, "dir"). "/**/*". expand("%:e")
 	let search_files   = glob(g:sSearchDir)
 	let g:sSearchFiles = split(search_files, "\n")
 	let search_files   = join(g:sSearchFiles, " ")
@@ -30,7 +30,7 @@ nmap <silent> <leader>fg :call SearchWordGlobal()<CR>
 function SearchWordLocal()
 	let g:sSearchWord  = input("local search: ", "\\<". expand("<cword>"). "\\>")
 	let g:sSearchDir   = getcwd()
-	let g:sSearchDir   = input("search in: ", g:sSearchDir, "dir"). "/**/*"
+	let g:sSearchDir   = input("search in: ", g:sSearchDir, "dir"). "/**/*". expand("%:e")
 	let search_files   = glob(g:sSearchDir)
 	let g:sSearchFiles = split(search_files, "\n")
 	let search_files   = join(g:sSearchFiles, " ")
