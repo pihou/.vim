@@ -24,7 +24,7 @@ function SearchWordGlobal()
 	let search_files   = join(g:sSearchFiles, " ")
 	call SearchWordGeneral(g:sSearchWord,search_files)
 endfunction
-nmap <silent> <leader>sg :call SearchWordGlobal()<CR>
+nmap <silent> <leader>fg :call SearchWordGlobal()<CR>
 
 "find word in directories.
 function FindWordGlobal()
@@ -36,7 +36,7 @@ function FindWordGlobal()
 	let search_files   = join(g:sSearchFiles, " ")
 	call SearchWordGeneral(g:sSearchWord,search_files)
 endfunction
-nmap <silent> <leader>fg :call FindWordGlobal()<CR>
+nmap <silent> <leader>sg :call FindWordGlobal()<CR>
 
 "find word in directories.
 function SearchWordLocal()
