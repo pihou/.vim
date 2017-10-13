@@ -73,3 +73,6 @@ endif
 "formatter
 autocmd FileType python nnoremap <leader>= :0,$!yapf<CR>
 
+"cscope -Rbq
+"set cscopequickfix=s-,c-,d-,i-,t-,e-
+
