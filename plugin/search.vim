@@ -24,25 +24,25 @@ function SearchWordGlobal()
 	let search_files   = join(g:sSearchFiles, " ")
 	call SearchWordGeneral(g:sSearchWord,search_files)
 endfunction
-nmap <silent> <leader>fg :call SearchWordGlobal()<CR>
+nmap <silent> <leader>sg :call SearchWordGlobal()<CR>
 
 "find word in directories.
 function FindWordGlobal()
 	let g:sSearchWord  = input("global search: ", "\\<". expand("<cword>"). "\\>")
 	let sSearchDir     = g:sProjectRoot
-	let g:sSearchDir   = input("search in: ", sSearchDir, "dir"). "/**/*". expand("%:e")
+	let g:sSearchDir   = input("search in: ", sSearchDir, "dir"). "/**/*"
 	let search_files   = glob(g:sSearchDir)
 	let g:sSearchFiles = split(search_files, "\n")
 	let search_files   = join(g:sSearchFiles, " ")
 	call SearchWordGeneral(g:sSearchWord,search_files)
 endfunction
-nmap <silent> <leader>sg :call FindWordGlobal()<CR>
+nmap <silent> <leader>fg :call FindWordGlobal()<CR>
 
 "find word in directories.
 function SearchWordLocal()
 	let g:sSearchWord  = input("local search: ", "\\<". expand("<cword>"). "\\>")
 	let g:sSearchDir   = getcwd()
-	let g:sSearchDir   = input("search in: ", g:sSearchDir, "dir"). "/**/*". expand("%:e")
+	let g:sSearchDir   = input("search in: ", g:sSearchDir, "dir"). "/**/*"
 	let search_files   = glob(g:sSearchDir)
 	let g:sSearchFiles = split(search_files, "\n")
 	let search_files   = join(g:sSearchFiles, " ")
