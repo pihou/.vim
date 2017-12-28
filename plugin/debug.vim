@@ -20,7 +20,7 @@ function PrintFuncInfo()
 	let nowline   = line('.')
 	let indent    = matchstr(getline('.'), '^\s*')
 	let scontent  = matchlist(getline(firstline), DEFFUNC_PAT)
-	let printtext = printf('%sprint(">>>>>>>> FanPrint[%d].%s", %s)', indent, index, scontent[1], scontent[2])
+	let printtext = printf('%sprint ">>>>>>>> FanPrint[%d].%s", %s', indent, index, scontent[1], scontent[2])
 	call append(nowline-1, printtext)
 	call cursor(nowline,len(printtext))
 endfunction
