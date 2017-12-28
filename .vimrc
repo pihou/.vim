@@ -39,7 +39,7 @@ let Tlist_Exit_OnlyWindow=1
 
 "winmanager 设置
 let g:winManagerWindowLayout='FileExplorer|TagList'
-set wig+=*~,*.o,*.swp,*.obj,*.pyc,.git/*,.svn/*,tags,node_modules/*
+set wig+=*~,*.o,*.swp,*.obj,*.pyc,.git/*,.svn/*,tags,node_modules/*,bundle/*,*.so
 nmap wm :WMToggle<cr>
 
 "minibufexpl 设置
@@ -60,16 +60,19 @@ endif
 
 
 "linters
-filetype off
-let &runtimepath.=',~/.vim/bundle/ale'
-filetype plugin on
-let g:ale_lint_on_text_changed = 1
-let g:ale_lint_on_save = 1
-let g:ale_lint_on_enter = 1
-
-nmap <silent> <C-k> <Plug>(ale_previous_wrap)
-nmap <silent> <C-j> <Plug>(ale_next_wrap)
+"filetype off
+"let &runtimepath.=',~/.vim/bundle/ale'
+"filetype plugin on
+"let g:ale_lint_on_text_changed = 1
+"let g:ale_lint_on_save = 1
+"let g:ale_lint_on_enter = 1
+"
+"nmap <silent> <C-k> <Plug>(ale_previous_wrap)
+"nmap <silent> <C-j> <Plug>(ale_next_wrap)
 
 "formatter
 autocmd FileType python nnoremap <leader>= :0,$!yapf<CR>
+
+"cscope -Rbq
+"set cscopequickfix=s-,c-,d-,i-,t-,e-
 
