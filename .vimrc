@@ -35,12 +35,11 @@ set autochdir  "设置可依据当前编辑文件切换目录
 "taglist 设置
 let Tlist_Show_One_File=1
 let Tlist_Exit_OnlyWindow=1
-"let Tlist_Ctags_Cmd='/usr/local/bin/ctags'
+let Tlist_Ctags_Cmd='/usr/local/bin/gotags'
 
-"winmanager 设置
-let g:winManagerWindowLayout='FileExplorer|TagList'
-set wig+=*~,*.o,*.swp,*.obj,*.pyc,.git/*,.svn/*,tags,node_modules/*,bundle/*,*.so
-nmap wm :WMToggle<cr>
+"nedtree tagbar 设置
+nmap nt :NERDTreeToggle<CR>
+nmap tb :TagbarToggle<CR>
 
 "minibufexpl 设置
 let g:miniBufExplMapWindowNavVim = 1
@@ -58,21 +57,17 @@ if &term =~ '^screen'
     set ttymouse=xterm2
 endif
 
+filetype plugin indent on
 
-"linters
-"filetype off
-"let &runtimepath.=',~/.vim/bundle/ale'
-"filetype plugin on
-"let g:ale_lint_on_text_changed = 1
-"let g:ale_lint_on_save = 1
-"let g:ale_lint_on_enter = 1
-"
-"nmap <silent> <C-k> <Plug>(ale_previous_wrap)
-"nmap <silent> <C-j> <Plug>(ale_next_wrap)
+" ==================== python ====================
+augroup python
+  autocmd!
+  autocmd FileType python nnoremap <leader>= :0,$!yapf<CR>
+augroup END
 
-"formatter
-autocmd FileType python nnoremap <leader>= :0,$!yapf<CR>
-
-"cscope -Rbq
-"set cscopequickfix=s-,c-,d-,i-,t-,e-
+" ==================== vim-go ====================
+augroup go
+  autocmd!
+  autocmd FileType go nmap <silent> <Leader>d <Plug>(go-def)
+augroup END
 
