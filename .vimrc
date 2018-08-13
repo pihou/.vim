@@ -66,8 +66,8 @@ augroup python
 augroup END
 
 " ==================== vim-go ====================
-augroup go
-  autocmd!
-  autocmd FileType go nmap <silent> <Leader>d <Plug>(go-def)
-augroup END
+"augroup go
+"  autocmd!
+"  autocmd FileType go nmap <silent> <Leader>d <Plug>(go-def)
+"augroup END
 

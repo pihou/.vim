@@ -3,7 +3,7 @@
 function PrintFuncInfo()
     let filetype = &filetype
     if filetype == "go"
-        let DEFFUNC_PAT = '^\s*func\s*\((\s*\w\+\s*\(\w\+\)\s*)\)\?\s*\(\w\+\)(\s*\(\w*\)'
+        let DEFFUNC_PAT = '^\s*func\s*\((\s*\w\+\s*\*\s*\(\w\+\)\s*)\)\?\s*\(\w\+\)(\s*\(\w*\)'
         let PRINT_FORMAT = '%sfmt.Println(">>>>>>>> FanPrint[%d].%s", %s)'
     else
 	    let DEFFUNC_PAT = '^\s*def\s*\(\w\+\)(\([^,]*\)[^)]*):'
