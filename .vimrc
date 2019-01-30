@@ -49,6 +49,7 @@ let g:miniBufExplorerMoreThanOne = 1
 let mapleader=" "
 nnoremap <leader>q :wqa<CR>
 autocmd FileType help wincmd L
+map <leader>r :NERDTreeFind<cr>
 
 "tmux兼容设置
 set mouse+=a
