@@ -2,10 +2,6 @@
 let s:cpo_save = &cpo
 set cpo&vim
 
-func! Test_Gometa() abort
-  call s:gometa('gometalinter')
-endfunc
-
 func! Test_GometaGolangciLint() abort
   call s:gometa('golangci-lint')
 endfunc
@@ -21,7 +17,7 @@ func! s:gometa(metalinter) abort
         \ ]
     if a:metalinter == 'golangci-lint'
       let expected = [
-            \ {'lnum': 5, 'bufnr': bufnr('%')+1, 'col': 1, 'valid': 1, 'vcol': 0, 'nr': -1, 'type': '', 'pattern': '', 'text': 'exported function `MissingFooDoc` should have comment or be unexported (golint)'}
+            \ {'lnum': 5, 'bufnr': bufnr('%')+2, 'col': 1, 'valid': 1, 'vcol': 0, 'nr': -1, 'type': '', 'pattern': '', 'text': 'exported function `MissingFooDoc` should have comment or be unexported (golint)'}
           \ ]
     endif
 
@@ -46,10 +42,6 @@ func! s:gometa(metalinter) abort
   endtry
 endfunc
 
-func! Test_GometaAutoSave() abort
-  call s:gometaautosave('gometalinter')
-endfunc
-
 func! Test_GometaAutoSaveGolangciLint() abort
   call s:gometaautosave('golangci-lint')
 endfunc
@@ -69,20 +61,18 @@ func! s:gometaautosave(metalinter) abort
           \ ]
     endif
 
-    let winnr = winnr()
-
     " clear the location lists
-    call setloclist(l:winnr, [], 'r')
+    call setloclist(0, [], 'r')
 
     let g:go_metalinter_autosave_enabled = ['golint']
 
     call go#lint#Gometa(0, 1)
 
-    let actual = getloclist(l:winnr)
+    let actual = getloclist(0)
     let start = reltime()
     while len(actual) == 0 && reltimefloat(reltime(start)) < 10
       sleep 100m
-      let actual = getloclist(l:winnr)
+      let actual = getloclist(0)
     endwhile
 
     call gotest#assert_quickfix(actual, expected)
@@ -159,7 +149,7 @@ func! Test_Lint_GOPATH() abort
 
   let expected = [
           \ {'lnum': 5, 'bufnr': bufnr('%'), 'col': 1, 'valid': 1, 'vcol': 0, 'nr': -1, 'type': '', 'pattern': '', 'text': 'exported function MissingDoc should have comment or be unexported'},
-          \ {'lnum': 5, 'bufnr': 6, 'col': 1, 'valid': 1, 'vcol': 0, 'nr': -1, 'type': '', 'pattern': '', 'text': 'exported function AlsoMissingDoc should have comment or be unexported'}
+          \ {'lnum': 5, 'bufnr': bufnr('%')+4, 'col': 1, 'valid': 1, 'vcol': 0, 'nr': -1, 'type': '', 'pattern': '', 'text': 'exported function AlsoMissingDoc should have comment or be unexported'}
       \ ]
 
   let winnr = winnr()
@@ -187,7 +177,7 @@ func! Test_Lint_NullModule() abort
 
   let expected = [
           \ {'lnum': 5, 'bufnr': bufnr('%'), 'col': 1, 'valid': 1, 'vcol': 0, 'nr': -1, 'type': '', 'pattern': '', 'text': 'exported function MissingDoc should have comment or be unexported'},
-          \ {'lnum': 5, 'bufnr': 6, 'col': 1, 'valid': 1, 'vcol': 0, 'nr': -1, 'type': '', 'pattern': '', 'text': 'exported function AlsoMissingDoc should have comment or be unexported'}
+          \ {'lnum': 5, 'bufnr': bufnr('%')+4, 'col': 1, 'valid': 1, 'vcol': 0, 'nr': -1, 'type': '', 'pattern': '', 'text': 'exported function AlsoMissingDoc should have comment or be unexported'}
       \ ]
 
   let winnr = winnr()
@@ -205,6 +195,25 @@ func! Test_Lint_NullModule() abort
   endwhile
 
   call gotest#assert_quickfix(actual, expected)
+endfunc
+
+func! Test_Errcheck_compilererror() abort
+  let l:tmp = gotest#load_fixture('lint/src/errcheck/compilererror/compilererror.go')
+
+  try
+    let l:bufnr = bufnr('')
+    let expected = []
+
+    " clear the location lists
+    call setqflist([], 'r')
+
+    call go#lint#Errcheck(1)
+
+    call gotest#assert_quickfix(getqflist(), expected)
+    call assert_equal(l:bufnr, bufnr(''))
+  finally
+    call delete(l:tmp, 'rf')
+  endtry
 endfunc
 
 " restore Vi compatibility settings

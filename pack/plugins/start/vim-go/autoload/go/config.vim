@@ -82,7 +82,18 @@ function! go#config#StatuslineDuration() abort
 endfunction
 
 function! go#config#SnippetEngine() abort
-  return get(g:, 'go_snippet_engine', 'automatic')
+  let l:engine = get(g:, 'go_snippet_engine', 'automatic')
+  if l:engine is? "automatic"
+    if get(g:, 'did_plugin_ultisnips') is 1
+      let l:engine = 'ultisnips'
+    elseif get(g:, 'loaded_neosnippet') is 1
+      let l:engine = 'neosnippet'
+    elseif get(g:, 'loaded_minisnip') is 1
+      let l:engine = 'minisnip'
+    endif
+  endif
+
+  return l:engine
 endfunction
 
 function! go#config#PlayBrowserCommand() abort
@@ -149,23 +160,6 @@ function! go#config#SetGuruScope(scope) abort
   endif
 endfunction
 
-function! go#config#GocodeUnimportedPackages() abort
-  return get(g:, 'go_gocode_unimported_packages', 0)
-endfunction
-
-let s:sock_type = (has('win32') || has('win64')) ? 'tcp' : 'unix'
-function! go#config#GocodeSocketType() abort
-  return get(g:, 'go_gocode_socket_type', s:sock_type)
-endfunction
-
-function! go#config#GocodeProposeBuiltins() abort
-  return get(g:, 'go_gocode_propose_builtins', 1)
-endfunction
-
-function! go#config#GocodeProposeSource() abort
-  return get(g:, 'go_gocode_propose_source', 0)
-endfunction
-
 function! go#config#EchoCommandInfo() abort
   return get(g:, 'go_echo_command_info', 1)
 endfunction
@@ -205,9 +199,10 @@ endfunction
 
 function! go#config#DebugWindows() abort
   return get(g:, 'go_debug_windows', {
-            \ 'stack': 'leftabove 20vnew',
-            \ 'out':   'botright 10new',
             \ 'vars':  'leftabove 30vnew',
+            \ 'stack': 'leftabove 20new',
+            \ 'goroutines': 'botright 10new',
+            \ 'out':        'botright 5new',
             \ }
          \ )
 
@@ -247,6 +242,10 @@ endfunction
 
 function! go#config#AddtagsTransform() abort
   return get(g:, 'go_addtags_transform', "snakecase")
+endfunction
+
+function! go#config#AddtagsSkipUnexported() abort
+  return get(g:, 'go_addtags_skip_unexported', 0)
 endfunction
 
 function! go#config#TemplateAutocreate() abort
@@ -350,7 +349,7 @@ function! go#config#FmtCommand() abort
 endfunction
 
 function! go#config#FmtOptions() abort
-  return get(g:, "go_fmt_options", {})
+  return get(b:, "go_fmt_options", get(g:, "go_fmt_options", {}))
 endfunction
 
 function! go#config#FmtFailSilently() abort
@@ -363,6 +362,11 @@ endfunction
 
 function! go#config#PlayOpenBrowser() abort
   return get(g:, "go_play_open_browser", 1)
+endfunction
+
+function! go#config#RenameCommand() abort
+  " delegate to go#config#GorenameBin for backwards compatability.
+  return get(g:, "go_rename_command", go#config#GorenameBin())
 endfunction
 
 function! go#config#GorenameBin() abort
@@ -460,8 +464,20 @@ function! go#config#HighlightVariableDeclarations() abort
   return get(g:, 'go_highlight_variable_declarations', 0)
 endfunction
 
+function! go#config#HighlightDiagnosticErrors() abort
+  return get(g:, 'go_highlight_diagnostic_errors', 1)
+endfunction
+
+function! go#config#HighlightDiagnosticWarnings() abort
+  return get(g:, 'go_highlight_diagnostic_warnings', 1)
+endfunction
+
 function! go#config#HighlightDebug() abort
   return get(g:, 'go_highlight_debug', 1)
+endfunction
+
+function! go#config#DebugBreakpointSignText() abort
+  return get(g:, 'go_debug_breakpoint_sign_text', '>')
 endfunction
 
 function! go#config#FoldEnable(...) abort
@@ -477,6 +493,43 @@ endfunction
 
 function! go#config#CodeCompletionEnabled() abort
   return get(g:, "go_code_completion_enabled", 1)
+endfunction
+
+function! go#config#Updatetime() abort
+  let go_updatetime = get(g:, 'go_updatetime', 800)
+  return go_updatetime == 0 ? &updatetime : go_updatetime
+endfunction
+
+function! go#config#ReferrersMode() abort
+  return get(g:, 'go_referrers_mode', 'gopls')
+endfunction
+
+function! go#config#GoplsCompleteUnimported() abort
+  return get(g:, 'go_gopls_complete_unimported', v:null)
+endfunction
+
+function! go#config#GoplsDeepCompletion() abort
+  return get(g:, 'go_gopls_deep_completion', v:null)
+endfunction
+
+function! go#config#GoplsFuzzyMatching() abort
+  return get(g:, 'go_gopls_fuzzy_matching', v:null)
+endfunction
+
+function! go#config#GoplsStaticCheck() abort
+  return get(g:, 'go_gopls_staticcheck', v:null)
+endfunction
+
+function! go#config#GoplsUsePlaceholders() abort
+  return get(g:, 'go_gopls_use_placeholders', v:null)
+endfunction
+
+function! go#config#GoplsEnabled() abort
+  return get(g:, 'go_gopls_enabled', 1)
+endfunction
+
+function! go#config#DiagnosticsEnabled() abort
+  return get(g:, 'go_diagnostics_enabled', 0)
 endfunction
 
 " Set the default value. A value of "1" is a shortcut for this, for
