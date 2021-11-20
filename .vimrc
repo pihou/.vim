@@ -6,6 +6,7 @@ syntax on
 set nu              "显示行号
 set ai              "自动缩进
 set nowrap          "自动换行
+set autoindent      "换行自动缩进
 set hlsearch
 set incsearch
 set expandtab
